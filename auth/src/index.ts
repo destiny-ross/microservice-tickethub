@@ -1,6 +1,7 @@
 import express from "express";
 import "express-async-errors";
 import mongoose from "mongoose";
+import cookieSession from "cookie-session";
 import { NotFoundError } from "./errors/not-found-error";
 import errorHandler from "./middleware/errorHandler";
 import { currentUserRouter } from "./routes/currentuser";
@@ -9,7 +10,16 @@ import { signoutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
 
 const app = express();
+
+// global middleware
+app.set("trust proxy", true);
 app.use(express.json());
+app.use(
+  cookieSession({
+    signed: false,
+    secure: true,
+  })
+);
 
 // routers
 app.use(currentUserRouter);
@@ -25,6 +35,11 @@ app.all("*", async () => {
 app.use(errorHandler);
 
 const start = async () => {
+  // check environment variables are defined
+
+  if (!process.env.JWT_KEY) {
+    throw new Error("JWT_KEY not defined");
+  }
   try {
     await mongoose.connect("mongodb://auth-mongo-service-cip:27017/auth");
     console.log("Connected to mongodb");
