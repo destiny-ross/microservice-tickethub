@@ -1,10 +1,9 @@
 import express, { Request, Response } from "express";
-import { body, validationResult } from "express-validator";
+import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User";
-import { RequestValidationError } from "../errors/request-validation-error";
-import { DatabaseConnectionError } from "../errors/database-connection-error";
 import { BadRequestError } from "../errors/bad-request-error";
+import { validateRequest } from "../utilities/validateRequest";
 
 const router = express.Router();
 router.post(
@@ -17,18 +16,14 @@ router.post(
       .isLength({ min: 6, max: 20 })
       .withMessage("Password must be between 6 and 20 characters"),
   ],
+  validateRequest,
   async (req: Request, res: Response) => {
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new RequestValidationError(errors.array());
-    }
-    console.log("creating user...");
-
     const { email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
-      throw new BadRequestError("Email is in use.");
+      throw new BadRequestError("Email in use");
     }
 
     const user = User.build({ email, password });
@@ -42,9 +37,11 @@ router.post(
       process.env.JWT_KEY!
     );
 
-    req.session = { jwt: token };
+    req.session = {
+      jwt: token,
+    };
 
-    res.status(201).send({ user });
+    res.status(201).send(user);
   }
 );
 
