@@ -1,6 +1,6 @@
 {
   "name": "@dross-tickets/common",
-  "version": "1.0.7",
+  "version": "1.0.10",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -10,7 +10,7 @@
   "scripts": {
     "build": "npm run clean && tsc",
     "clean": "del ./build/*",
-    "pub": "git add . && commit -m \"Updates\" && npm version patch && npm run build && npm publish"
+    "pub": "npm version patch && npm run build && npm publish"
   },
   "keywords": [],
   "author": "",

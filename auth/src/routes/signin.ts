@@ -2,9 +2,8 @@ import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { User } from "../models/User";
 import jwt from "jsonwebtoken";
-import { validateRequest } from "../utilities/validateRequest";
-import { BadRequestError } from "../errors/bad-request-error";
-import { Password } from "../utilities/password";
+import { BadRequestError, validateRequest } from "@dross-tickets/common";
+import { Password } from "../utils/password";
 
 const router = express.Router();
 router.post(

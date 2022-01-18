@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { RequestValidationError } from "../../../common/src/errors/request-validation-error";
-import { DatabaseConnectionError } from "../../../common/src/errors/database-connection-error";
-import { CustomError } from "../../../common/src/errors/custom-error";
+import { CustomError } from "../errors/custom-error";
 
-const errorHandler = (
+export const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
@@ -18,5 +16,3 @@ const errorHandler = (
     .status(400)
     .send({ errors: [{ message: "Something went wrong." }] });
 };
-
-export default errorHandler;

@@ -8,3 +8,4 @@ export * from "./errors/request-validation-error";
 export * from "./middleware/currentUser";
 export * from "./middleware/errorHandler";
 export * from "./middleware/requireAuth";
+export * from "./middleware/validateRequest";
