@@ -12,6 +12,7 @@ export const errorHandler = (
   }
 
   // generic error not specifically handled
+  console.error(err);
   return res
     .status(400)
     .send({ errors: [{ message: "Something went wrong." }] });

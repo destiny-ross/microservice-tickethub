@@ -1,23 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-deployment
+  name: tickets-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: tickets
   template:
     metadata:
       labels:
-        app: auth
+        app: tickets
     spec:
       containers:
-        - name: auth
-          image: destinyross/auth
+        - name: tickets
+          image: destinyross/tickets
           env:
             - name: MONGO_URI
-              value: mongodb://auth-mongo-service-cip:27017/auth
+              # db is only accessible inside of service, so is safe to commit as plain string
+              value: mongodb://tickets-mongo-service-cip:27017/tickets
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -27,12 +28,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service-cip
+  name: tickets-service-cip
 spec:
   selector:
-    app: auth
+    app: tickets
   ports:
-    - name: auth
+    - name: tickets
       protocol: TCP
       port: 3000
       targetPort: 3000
