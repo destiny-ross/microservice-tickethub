@@ -10,6 +10,7 @@ declare global {
 
 //hook that runs before all tests are executed
 process.env.JWT_KEY = "jewgbkjewbmn,wb";
+jest.mock("../nats-wrapper");
 beforeAll(async () => {
   mongo = await MongoMemoryServer.create();
   const mongoURI = await mongo.getUri();
@@ -17,6 +18,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  jest.clearAllMocks();
   const collections = await mongoose.connection.db.collections();
 
   for (let collection of collections) {
