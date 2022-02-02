@@ -2,11 +2,13 @@ import request from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
 import { Order, OrderStatus } from "../../models/order";
+import mongoose from "mongoose";
 
 it("returns order info", async () => {
   const ticket = Ticket.build({
     title: "K.Flay w/ PVRIS",
     price: 40,
+    id: new mongoose.Types.ObjectId().toHexString(),
   });
   await ticket.save();
 
@@ -31,6 +33,7 @@ it("returns NotAuthedError if a user attempts to view another user's order", asy
   const ticket = Ticket.build({
     title: "K.Flay w/ PVRIS",
     price: 40,
+    id: new mongoose.Types.ObjectId().toHexString(),
   });
   await ticket.save();
 

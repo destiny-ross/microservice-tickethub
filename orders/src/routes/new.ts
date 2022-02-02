@@ -60,6 +60,7 @@ router.post(
       userId: order.userId,
       status: OrderStatus.Created,
       expiresAt: order.expiresAt.toISOString(),
+      version: order.version,
       ticket: { id: ticket.id, price: ticket.price },
     });
     res.status(201).send(order);
