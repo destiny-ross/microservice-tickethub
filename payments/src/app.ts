@@ -6,6 +6,7 @@ import {
   errorHandler,
   currentUser,
 } from "@dross-tickets/common";
+import { createChargeRouter } from "./routes/new";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(
 app.use(currentUser);
 
 // routers
+app.use(createChargeRouter);
 
 // Not found
 app.all("*", async () => {
